@@ -1,188 +1,87 @@
-// import React, { useEffect, useState } from "react";
-// import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
-// export default function BookForm() {
-//   const navigate = useNavigate();
-//   const { id } = useParams();
-//   const isEdit = Boolean(id);
+const BookForm = () => {
+  // State to hold form inputs
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [books, setBooks] = useState([]);
 
-//   const [form, setForm] = useState({
-//     title: "",
-//     author: "",
-//     email: "",
-//     age: "",
-//     overview: "",
-//   });
-
-//   useEffect(() => {
-//     if (isEdit) {
-//       fetch(`http://localhost:5000/books/${id}`)
-//         .then((res) => res.json())
-//         .then((data) => setForm(data));
-//     }
-//   }, [id, isEdit]);
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-
-//     fetch(
-//       isEdit
-//         ? `http://localhost:5000/books/${id}`
-//         : "http://localhost:5000/books",
-//       {
-//         method: isEdit ? "PUT" : "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(form),
-//       }
-//     ).then(() => navigate("/"));
-//   };
-
-//   return (
-//     <div>
-//       <h2>{isEdit ? "Edit Book" : "Add Book"}</h2>
-
-//       <form onSubmit={handleSubmit}>
-//         <input
-//           placeholder="Title"
-//           value={form.title}
-//           onChange={(e) => setForm({ ...form, title: e.target.value })}
-//         />
-
-//         <input
-//           placeholder="Author"
-//           value={form.author}
-//           onChange={(e) => setForm({ ...form, author: e.target.value })}
-//         />
-
-//         <input
-//           placeholder="Email"
-//           value={form.email}
-//           onChange={(e) => setForm({ ...form, email: e.target.value })}
-//         />
-
-//         <input
-//           placeholder="Age"
-//           value={form.age}
-//           onChange={(e) => setForm({ ...form, age: e.target.value })}
-//         />
-
-//         <textarea
-//           placeholder="Overview"
-//           value={form.overview}
-//           onChange={(e) => setForm({ ...form, overview: e.target.value })}
-//         />
-
-//         <button type="submit">
-//           {isEdit ? "Update" : "Save"}
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }
-
-
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
-export default function BookForm({ books, setBooks }) {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const isEdit = Boolean(id);
-
-  const [form, setForm] = useState({
-    title: "",
-    author: "",
-    email: "",
-    overview: "",
-  });
-
+  // Load books from localStorage when component mounts
   useEffect(() => {
-    if (isEdit) {
-      const existingBook = books.find((b) => b.id === id);
-      if (existingBook) {
-        setForm(existingBook);
-      }
+    const storedBooks = localStorage.getItem("books");
+    if (storedBooks) {
+      setBooks(JSON.parse(storedBooks));
     }
-  }, [id, isEdit, books]);
+  }, []);
 
-  const handleSubmit = async (e) => {
+  // Save books to localStorage whenever books change
+  useEffect(() => {
+    localStorage.setItem("books", JSON.stringify(books));
+  }, [books]);
+
+  const onSubmit = (e) => {
     e.preventDefault();
 
-    const url = isEdit
-      ? `http://localhost:5000/books/${id}`
-      : "http://localhost:5000/books";
+    // Prevent empty submissions
+    if (!title.trim() || !author.trim()) return;
 
-    const method = isEdit ? "PUT" : "POST";
+    const newBook = {
+      id: Date.now(),
+      title,
+      author,
+    };
 
-    const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    setBooks([...books, newBook]); // Add new book to state
 
-    const savedBook = await res.json();
+    // Clear form
+    setTitle("");
+    setAuthor("");
+  };
 
-    if (isEdit) {
-      // update book instantly
-      setBooks(books.map((b) => (b.id === id ? savedBook : b)));
-    } else {
-      // add book instantly
-      setBooks([...books, savedBook]);
-    }
-
-    navigate("/");
+  const removeBook = (id) => {
+    setBooks(books.filter((book) => book.id !== id));
   };
 
   return (
-  <div>
-    <h2>{isEdit ? "Edit Book" : "Add Book"}</h2>
+    <div style={{ maxWidth: "500px", margin: "auto" }}>
+      <h2>Book Inventory</h2>
+      <form onSubmit={onSubmit}>
+        <div>
+          <label>Title:</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Author:</label>
+          <input
+            type="text"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Add Book</button>
+      </form>
 
-    {isEdit && (
-      <button
-        type="button"
-        onClick={() => navigate("/")}
-        style={{
-          marginBottom: "15px",
-          backgroundColor: "#555"
-        }}
-      >
-        ← Back
-      </button>
-    )}
+      <h3>Books List</h3>
+      {books.length === 0 ? (
+        <p>No books added yet.</p>
+      ) : (
+        <ul>
+          {books.map((book) => (
+            <li key={book.id}>
+              "{book.title}" by {book.author}{" "}
+              <button onClick={() => removeBook(book.id)}>Remove</button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
 
-    <form onSubmit={handleSubmit}>
-      <input
-        placeholder="Title"
-        value={form.title}
-        onChange={(e) => setForm({ ...form, title: e.target.value })}
-        required
-      />
-
-      <input
-        placeholder="Author"
-        value={form.author}
-        onChange={(e) => setForm({ ...form, author: e.target.value })}
-        required
-      />
-
-      <input
-        placeholder="Email"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
-
-      <textarea
-        placeholder="Overview"
-        value={form.overview}
-        onChange={(e) =>
-          setForm({ ...form, overview: e.target.value })
-        }
-      />
-
-      <button type="submit">
-        {isEdit ? "Update" : "Save"}
-      </button>
-    </form>
-  </div>
-);
-}
+export default BookForm;
