@@ -1,0 +1,74 @@
+{
+  "books": [
+    {
+      "id": "7696",
+      "title": "The Guide",
+      "author": "R. K. Narayan",
+      "email": "rknarayan@gmail.com",
+      "overview": "A classic Indian novel about love, self-discovery, and spiritual transformation set in the fictional town of Malgudi."
+    },
+    {
+      "id": "bbf7",
+      "title": "Midnight's Children",
+      "author": "Salman Rushdie",
+      "email": "salman.rushdie@gmail.com",
+      "overview": "A powerful story linking the life of a child born at midnight to the fate of independent India."
+    },
+    {
+      "id": "1c41",
+      "title": "The God of Small Things",
+      "author": "Arundhati Roy",
+      "email": "arundhati.roy@gmail.com",
+      "overview": "A deeply emotional novel exploring family, caste, and forbidden love in Kerala."
+    },
+    {
+      "id": "b9ed",
+      "title": "Train to Pakistan",
+      "author": "Khushwant Singh",
+      "email": "khushwant.singh@gmail.com",
+      "overview": "A gripping portrayal of human suffering and communal violence during the Partition of India."
+    },
+    {
+      "id": "733f",
+      "title": "Malgudi Days",
+      "author": "R. K. Narayan",
+      "email": "rk.malgudi@gmail.com",
+      "overview": "A collection of short stories capturing everyday life in the charming town of Malgudi."
+    },
+    {
+      "id": "7569",
+      "title": "Ghachar Ghochar",
+      "author": "Vivek Shanbhag",
+      "email": "vivek.shanbhag@gmail.com",
+      "overview": "A psychological novel about how sudden wealth slowly destroys a close-knit Indian family."
+    },
+    {
+      "id": "d671",
+      "title": "The White Tiger",
+      "author": "Aravind Adiga",
+      "email": "aravind.adiga@gmail.com",
+      "overview": "A dark, satirical look at class struggle and ambition in modern India."
+    },
+    {
+      "id": "09c6",
+      "title": "Raavan: Enemy of Aryavarta",
+      "author": "Amish Tripathi",
+      "email": "amish.tripathi@gmail.com",
+      "overview": "A retelling of the Ramayana from Raavan’s perspective, exploring his rise and fall."
+    },
+    {
+      "id": "2a32",
+      "title": "Swami and Friends",
+      "author": "R. K. Narayan",
+      "email": "swami.friends@gmail.com",
+      "overview": "A heartwarming coming-of-age story about childhood, friendship, and school life in India."
+    },
+    {
+      "id": "c7cf",
+      "title": "The Palace of Illusions",
+      "author": "Chitra Banerjee Divakaruni",
+      "email": "chitra.divakaruni@gmail.com",
+      "overview": "The Mahabharata retold through the eyes of Draupadi, offering a powerful female perspective."
+    }
+  ]
+}
